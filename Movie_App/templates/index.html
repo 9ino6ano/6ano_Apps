@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Movies and Series App</title>
+</head>
+<body>
+    <h1>Movies and Series App</h1>
+    <form id="fetchForm">
+        <label for="genre">Select Genre:</label>
+        <select id="genre" name="genre">
+            <option value="28">Action</option>
+            <option value="35">Comedy</option>
+            <option value="18">Drama</option>
+            <!-- Add more genres as needed -->
+        </select>
+        <button type="button" onclick="fetchMovies()">Fetch Movies</button>
+    </form>
+
+    <h2>Search Movies</h2>
+    <form id="searchForm">
+        <label for="query">Search Query:</label>
+        <input type="text" id="query" name="query">
+        <button type="button" onclick="searchMovies()">Search</button>
+    </form>
+
+    <div id="movieList"></div>
+
+    <script>
+        function fetchMovies() {
+            const genre = document.getElementById('genre').value;
+            fetch('/fetch_movies', {
+                method: 'POST',
+                body: new URLSearchParams({ genre: genre }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            })
+            .then(response => response.json())
+            .then(data => alert(data.message))
+            .catch(error => console.error('Error:', error));
+        }
+
+        function searchMovies() {
+            const query = document.getElementById('query').value;
+            fetch('/search_movies', {
+                method: 'POST',
+                body: new URLSearchParams({ query: query }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                const movieListDiv = document.getElementById('movieList');
+                movieListDiv.innerHTML = '<h2>Search Results</h2>';
+                data.movies.forEach(movie => {
+                    movieListDiv.innerHTML += `<p>${movie[1]} - ${movie[3]}</p>`;
+                });
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

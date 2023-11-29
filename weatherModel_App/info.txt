@@ -1,0 +1,3 @@
+This example includes a Flask web application to display weather information and uses two separate threads
+for weather updates and voice commands. Note that you should handle sensitive information like API keys securely,
+especially if you plan to deploy this application.

@@ -1,0 +1,27 @@
+create a simple Q&A system using a pre-trained model and how to deploy it as a web API using Flask.
+
+For deployment, you can use platforms like Heroku, AWS, or Azure. Here's a basic guide for deploying on Heroku:
+
+Sign up for a Heroku account.
+Install the Heroku CLI.
+Create a requirements.txt file listing the dependencies (torch, transformers, flask).
+Create a Procfile with the following content:
+
+@Bash
+web: python api.py
+
+>"commit your code to version control system like GIT"
+
+heroku create your-app-name
+
+>"Create a new heroku app"
+
+git push heroku master
+
+>"Deploy and open your app"
+
+heroku open
+
+
+@This is a simplified example for a production level system.
+> consider security, scalability and performance optimizations

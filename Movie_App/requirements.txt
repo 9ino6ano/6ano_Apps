@@ -1,0 +1,7 @@
+# Install required packages
+pip install Flask requests
+
+# Create project structure
+mkdir movie_app
+cd movie_app
+touch app.py templates/index.html static/style.css

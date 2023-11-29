@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        #chat-container {
+            max-width: 600px;
+            margin: auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #user-messages, #bot-messages {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <div id="user-messages"></div>
+        <div id="bot-messages"></div>
+        <input type="text" id="user-input" placeholder="Type your message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        function appendMessage(container, message, sender) {
+            const messageElement = document.createElement("div");
+            messageElement.textContent = `${sender}: ${message}`;
+            container.appendChild(messageElement);
+        }
+
+        function sendMessage() {
+            const userInput = document.getElementById("user-input");
+            const userMessagesContainer = document.getElementById("user-messages");
+            const botMessagesContainer = document.getElementById("bot-messages");
+
+            const userMessage = userInput.value.trim();
+            if (userMessage !== "") {
+                appendMessage(userMessagesContainer, userMessage, "You");
+
+                // Send user message to server
+                fetch("/get_response", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: `user_message=${encodeURIComponent(userMessage)}`,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const botResponse = data.response;
+                    appendMessage(botMessagesContainer, botResponse, "Bot");
+                })
+                .catch(error => console.error("Error:", error));
+
+                userInput.value = "";
+            }
+        }
+    </script>
+</body>
+</html>

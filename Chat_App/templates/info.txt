@@ -1,0 +1,6 @@
+Visit http://localhost:5000 in your web browser, and you should see a simple chat interface.
+Type a message, and the chatbot will respond.
+
+This example uses the ChatterBot library, which is a simple conversational agent training tool.
+For a more sophisticated chatbot, you might consider using more advanced natural language processing libraries like spaCy or transformers such as Hugging Face's Transformers.
+Additionally, you may want to deploy your application on a more robust server for production use.

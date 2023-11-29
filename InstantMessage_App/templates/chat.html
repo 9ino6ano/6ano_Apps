@@ -1,0 +1,43 @@
+<!-- templates/chat.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h2>Chat Room</h2>
+    <ul id="messages">
+        {% for message in messages %}
+            <!-- modify the chat.html to handle incoming messages and display notifications-->
+            <li {% if message.sender_id != user_id %} class="notification" {% endif %}>{{ message.content }}</li>
+        {% endfor %}
+    </ul>
+    <!-- updating the chat.html to include a file input in the form -->
+       <form action="{{ url_for('chat', user_id=user_id) }}" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Upload File">
+    </form>
+    <input id="message_input" autocomplete="off">
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        socket.on('message', function(data) {
+            $('#messages').append($('<li>').text(data));
+        });
+
+        function sendMessage() {
+            var message = $('#message_input').val();
+            socket.emit('message', message);
+            $('#message_input').val('');
+        }
+    </script>
+</body>
+</html>
+#run the application on the bash = python app.py

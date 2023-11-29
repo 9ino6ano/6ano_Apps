@@ -1,0 +1,10 @@
+/* static/style.css */
+.notification {
+    font-weight: bold;
+    color: #ff0000;
+}
+
+/*
+Add some CSS to highlight notifications
+-> create a new file name "style.css"
+*/
